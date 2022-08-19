@@ -85,6 +85,12 @@ const parseVersion = (tag) => {
       .split('/');
     stripedTag = tagParts[tagParts.length - 1]
       .replace('<--!PREFIX!-->', tagPrefix);
+  } else if (namespace.includes('/') && tag.includes(namespace)) {
+    let tagParts = tag
+      .replace(namespace, '<--!NAMESPACE!-->')
+      .split('/');
+    stripedTag = tagParts[tagParts.length - 1]
+      .replace('<--!NAMESPACE!-->', namespace);
   } else {
     let tagParts = tag.split('/');
     stripedTag = tagParts[tagParts.length - 1];

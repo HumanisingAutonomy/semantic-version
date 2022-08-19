@@ -1190,7 +1190,7 @@ const setOutput = (major, minor, patch, increment, changed, branch, namespace) =
     core.info('No changes detected for this commit');
   }
 
-  core.info(`Version is ${major}.${minor}.${patch}+${increment}`);
+  core.info(`Version is ${version}`);
   if (repository !== undefined && !namespace) {
     core.info(`To create a release for this version, go to https://github.com/${repository}/releases/new?tag=${tag}&target=${branch.split('/').reverse()[0]}`);
   }
@@ -1214,6 +1214,12 @@ const parseVersion = (tag) => {
       .split('/');
     stripedTag = tagParts[tagParts.length - 1]
       .replace('<--!PREFIX!-->', tagPrefix);
+  } else if (namespace.includes('/') && tag.includes(namespace)) {
+    let tagParts = tag
+      .replace(namespace, '<--!NAMESPACE!-->')
+      .split('/');
+    stripedTag = tagParts[tagParts.length - 1]
+      .replace('<--!NAMESPACE!-->', namespace);
   } else {
     let tagParts = tag.split('/');
     stripedTag = tagParts[tagParts.length - 1];
